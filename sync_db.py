@@ -236,7 +236,7 @@ class SyncDb(object):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.description='sync_db ，using rsync to sync binlog'
-    parser.add_argument('-h', '--host', help='client mysql host', default='127.0.0.1')
+    parser.add_argument('-H', '--host', help='client mysql host', default='127.0.0.1')
     parser.add_argument('-P', '--port', help='client mysql port', default= 3306)
     parser.add_argument('-a', '--password', help='client mysql password', default='smaug')
     parser.add_argument('-d', '--dir', help='work dir, put rsync files into this dir', default='/root/smaug/topargus-db-sync')
