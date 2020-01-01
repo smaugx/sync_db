@@ -11,11 +11,13 @@ using rsync to sync binlog, fast and high performance.
 
 
 # usage
-befor using this tool, you should modify some parameters.
+befor using this tool, you should modify some parameters. please check:
 
 ```
-vi sync_db.py
+python sync_db.py  -h
 ```
+base usage, then modify or give parameters.
+
 set your own mysql-server host, port, password, rsync command, work_dir 
 
 when set ok ,then run this script.

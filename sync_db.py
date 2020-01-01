@@ -4,6 +4,7 @@
 import os
 import json
 import time
+import argparse
 from slogging import slog
 
 full_dump_return_code = {
@@ -233,9 +234,23 @@ class SyncDb(object):
 
 
 if __name__ == '__main__':
-    work_dir = '/root/smaug/topargus-db-sync'
-    rsync_cmd = 'rsync -avHe "ssh -p 1022 -i /root/.ssh/top-digital-ocean.pem" root@142.93.126.168::dashdb /root/smaug/topargus-db-sync/'
-    full_sql_file = '/root/smaug/topargus-db-sync/topargus_201912311800.sql'
+    parser = argparse.ArgumentParser()
+    parser.description='sync_db ，using rsync to sync binlog'
+    parser.add_argument('-h', '--host', help='client mysql host', default='127.0.0.1')
+    parser.add_argument('-P', '--port', help='client mysql port', default= 3306)
+    parser.add_argument('-a', '--password', help='client mysql password', default='smaug')
+    parser.add_argument('-d', '--dir', help='work dir, put rsync files into this dir', default='/root/smaug/topargus-db-sync')
+    parser.add_argument('-f', '--file', help="the first time full_dump sql file", default='/root/smaug/topargus-db-sync/topargus_201912311800.sql')
+    parser.add_argument('-r', '--rsync', help="rsync command", required=True)
+    args = parser.parse_args()
 
-    sync = SyncDb(rsync_cmd = rsync_cmd, work_dir = work_dir)
+    host     = args.host
+    port     = args.port
+    password = args.password
+    work_dir = args.dir
+    #rsync_cmd = 'rsync -avHe "ssh -p 1022 -i /root/.ssh/top-digital-ocean.pem" root@192.168.1.1::dashdb /root/smaug/topargus-db-sync/'
+    rsync_cmd = args.rsync
+    full_sql_file = args.file
+
+    sync = SyncDb(rsync_cmd = rsync_cmd, work_dir = work_dir, host = host, port = port, password = password)
     sync.run(full_sql_file = full_sql_file)
