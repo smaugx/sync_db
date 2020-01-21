@@ -157,6 +157,11 @@ class SyncDb(object):
         if not last_binlog or not last_binlog_sql:
             return False
 
+        # first rm temp/*.sql
+        rm_tmp_sql_cmd = 'rm {0}/*.sql'.format(self.work_dir_temp_)
+        os.popen(rm_tmp_sql_cmd)
+        slog.info("excute cmd:{0}".format(rm_tmp_sql_cmd))
+
         cmd = 'mysqlbinlog {0} > {1}'.format(last_binlog, last_binlog_sql)
         slog.debug(cmd)
         os.popen(cmd)
